@@ -114,7 +114,7 @@ export function run(input) {
       }
 
       if(groupBuildBundle && groupParent) return;
-      if(hideMemberPrice) return;
+      if(hideMemberPrice && !groupUuid) return;
 
       var discountAmount = 0;
       var discountMessage = "";
@@ -167,7 +167,19 @@ export function run(input) {
       if(discountMessage) discountLine.message = discountMessage;
 
       if( discountAmount > 0){
-        discounts.push(discountLine);
+        const alreadyExistIndex = discounts.findIndex((d) => d.targets[0].productVariant.id === variant.id);
+        if(alreadyExistIndex > -1){
+          const discount = discounts.find((d) => d.targets[0].productVariant.id === variant.id);
+          discounts.splice(alreadyExistIndex, 1, {
+            targets: discountLine.targets,
+            value: { fixedAmount: {
+              amount: String(parseFloat(discountAmount) + parseFloat(discount.value.fixedAmount.amount))
+            }}
+          });
+        }
+        else{
+          discounts.push(discountLine);
+        }
       }
 
     });
