@@ -118,7 +118,7 @@ export function run(input) {
 
       var discountAmount = 0;
       var discountMessage = "";
-      if(existParent && ((!sipMonthShow && groupUuid && !groupParent) || (groupUuid && !groupParent))){
+      if(existParent && !sipMonthShow && groupUuid && !groupParent){
         if(memberSpecial){
           discountMessage = "Included in membership box";
         }
@@ -157,18 +157,15 @@ export function run(input) {
       }];
 
       const discountLine = {
-        message: discountMessage,
-        // message: JSON.stringify(discounts),
         targets: target,
         value: {
           fixedAmount: {
             amount: discountAmount
           }
-          // percentage: {
-          //   value: 50
-          // }
         }
       }
+      if(discountMessage) discountLine.message = discountMessage;
+
       if( discountAmount > 0){
         discounts.push(discountLine);
       }
@@ -196,60 +193,20 @@ export function run(input) {
     }];
 
     const discountLine = {
-      message: discountMessage,
-      // message: JSON.stringify("teste"),
       targets: target,
       value: {
         fixedAmount: {
           amount: discountAmount
         }
-        // percentage: {
-        //   value: 50
-        // }
       }
     }
+
+    if(discountMessage) discountLine.message = discountMessage;
+
     if(discountAmount > 0){
       discounts.push(discountLine)
     }
   });
-
-  // input.cart.lines
-  // .forEach(line => {
-  //   const variant = /** @type {ProductVariant} */ (line.merchandise);
-  //   const target =[/** @type {Target} */ {
-  //     productVariant: {
-  //       id: variant.id
-  //     }
-  //   }];
-
-  //   const discountLine = {
-  //     message: "teste",
-  //     // message: JSON.stringify(line.sellingPlanAllocation),
-  //     targets: target,
-  //     value: {
-  //       fixedAmount: {
-  //         amount: 5
-  //       }
-  //       // percentage: {
-  //       //   value: 50
-  //       // }
-  //     }
-  //   }
-  //     discounts.push(discountLine)
-  // });
-
-
-  // [
-  //   {
-  //     message: JSON.stringify(input.cart.buyerIdentity),
-  //     targets,
-  //     value: {
-  //       percentage: {
-  //         value: 50
-  //       }
-  //     }
-  //   }
-  // ]
 
   return {
     discounts: discounts,
