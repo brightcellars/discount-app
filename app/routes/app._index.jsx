@@ -38,7 +38,13 @@ export async function action({ request }) {
           automaticAppDiscount: {
             title: "Custom BC Discount", 
             functionId: "${process.env.SHOPIFY_PRODUCT_DISCOUNT_JS_ID}", 
-            startsAt: "2023-11-29T00:00:00"}
+            startsAt: "2023-11-29T00:00:00",
+            combinesWith: {
+              orderDiscounts: true,
+              productDiscounts: true,
+              shippingDiscounts: true
+            }
+          }
         ) {
           automaticAppDiscount {
             discountId
