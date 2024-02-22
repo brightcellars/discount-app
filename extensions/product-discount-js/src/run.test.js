@@ -446,7 +446,6 @@ describe('custom bc discount function', () => {
                 }
               }
           },{
-            message: "",
               targets: [
                 {
                   productVariant: {
@@ -540,6 +539,102 @@ describe('custom bc discount function', () => {
       const expected = /** @type {FunctionResult} */ ({
           discountApplicationStrategy: DiscountApplicationStrategy.All,
           discounts: [
+      ]
+      });
+
+      expect(result).toEqual(expected);
+    });
+
+    it('dont apply discount if has tag "dont show member price"', () => {
+      const result = productDiscount({
+          "cart": {
+            "lines": [
+              {
+                "_group_uuid": {
+                  "value": "teste"
+                },
+                "_group_parent": {
+                  "value": "true"
+                },
+                "_group_build_bundle": null,
+                "_sip_month_hide": null,
+                "_sip_month_show": null,
+                "_member_special": null,
+                "quantity": 1,
+                "merchandise": {
+                  "__typename": "ProductVariant",
+                  "id": "gid://shopify/ProductVariant/47350688055579",
+                  "title": "1 bottle",
+                  "product": {
+                    "hasAnyTag": true
+                  }
+                },
+                "sellingPlanAllocation": null,
+                "cost": {
+                  "totalAmount": {
+                    "amount": "20.0"
+                  }
+                }
+              },
+              {
+                "_group_uuid": {
+                  "value": "teste"
+                },
+                "_group_parent": null,
+                "_group_build_bundle": null,
+                "_sip_month_hide": null,
+                "_sip_month_show": null,
+                "_member_special": null,
+                "quantity": 1,
+                "merchandise": {
+                  "__typename": "ProductVariant",
+                  "id": "gid://shopify/ProductVariant/47427777462555",
+                  "title": "1 bottle",
+                  "product": {
+                    "hasAnyTag": false
+                  }
+                },
+                "sellingPlanAllocation": null,
+                "cost": {
+                  "totalAmount": {
+                    "amount": "20.0"
+                  }
+                }
+              }
+            ],
+            "cost": {
+              "subtotalAmount": {
+                "amount": "40.0"
+              }
+            },
+            "buyerIdentity": {
+              "customer": {
+                "id": "gid://shopify/Customer/7646148100379",
+                "activeSubscriber": true
+              }
+            }
+          },
+          "discountNode": {
+            "metafield": null
+          }
+        });
+      const expected = /** @type {FunctionResult} */ ({
+          discountApplicationStrategy: DiscountApplicationStrategy.All,
+          discounts: [{
+            message: "Included in bundle",
+              targets: [
+                {
+                  productVariant: {
+                    id: "gid://shopify/ProductVariant/47427777462555"
+                  }
+                }
+              ],
+              value: {
+                fixedAmount: {
+                  amount: "20.0"
+                }
+              }
+          }
       ]
       });
 
