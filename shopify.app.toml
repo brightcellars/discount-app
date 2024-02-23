@@ -2,7 +2,7 @@
 
 name = "discount-app"
 client_id = "f68a3b9a18faa115c89fe65cf681036c"
-application_url = "https://women-hard-supposed-showing.trycloudflare.com"
+application_url = "https://cameroon-dream-albany-oem.trycloudflare.com"
 embedded = true
 
 [access_scopes]
@@ -11,10 +11,10 @@ scopes = "write_products,write_discounts"
 
 [auth]
 redirect_urls = [
-  "https://women-hard-supposed-showing.trycloudflare.com/auth/callback",
-  "https://women-hard-supposed-showing.trycloudflare.com/auth/shopify/callback",
-  "https://women-hard-supposed-showing.trycloudflare.com/api/auth/callback",
-  "https://women-hard-supposed-showing.trycloudflare.com/.shopify/graphiql/auth/callback"
+  "https://cameroon-dream-albany-oem.trycloudflare.com/auth/callback",
+  "https://cameroon-dream-albany-oem.trycloudflare.com/auth/shopify/callback",
+  "https://cameroon-dream-albany-oem.trycloudflare.com/api/auth/callback",
+  "https://cameroon-dream-albany-oem.trycloudflare.com/.shopify/graphiql/auth/callback"
 ]
 
 [webhooks]

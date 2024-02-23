@@ -114,7 +114,7 @@ export function run(input) {
       }
 
       if(groupBuildBundle && groupParent) return;
-      console.log(hideMemberPrice)
+      
       if(hideMemberPrice) return;
 
       var discountAmount = 0;
