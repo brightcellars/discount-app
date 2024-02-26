@@ -28,6 +28,7 @@ query RunInput {
           title
           product {
             hasAnyTag (tags: ["Don't Show Member Price"])
+            title
           }
         }
       }
@@ -42,24 +43,11 @@ query RunInput {
         }
       }
     }
-    cost {
-      subtotalAmount{
-        amount
-      }
-    }
     buyerIdentity{
       customer{
         id
         activeSubscriber: hasAnyTag (tags: ["Active Subscriber"])
       }
-    }
-  }
-  discountNode {
-    metafield(
-      namespace: "$app:volume-discount"
-      key: "function-configuration"
-    ) {
-      value
     }
   }
 }

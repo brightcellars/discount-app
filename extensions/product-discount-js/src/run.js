@@ -75,8 +75,9 @@ export function run(input) {
     .forEach(line => {
       const groupParent = line._group_parent && line._group_parent.value;
       const groupUuid = line._group_uuid && line._group_uuid.value;
+      const groupBuildBundle = line._group_build_bundle && line._group_build_bundle.value;
       if(groupParent && groupUuid){
-        parentsUuid.push(groupUuid);
+        parentsUuid.push({uuid: groupUuid, byob: groupBuildBundle});
       }
     });
 
@@ -94,7 +95,7 @@ export function run(input) {
       const memberSpecial = line._member_special && line._member_special.value;
       const linePrice = line.cost.totalAmount.amount;
       const sellingPlan = line.sellingPlanAllocation && line.sellingPlanAllocation.sellingPlan.id;
-      const existParent = !groupParent && groupUuid && parentsUuid.includes(groupUuid);
+      const existParent = !groupParent && groupUuid && parentsUuid.find((p) => p.uuid == groupUuid);
 
       if(groupUuid && !groupParent){
         if(groupUuid in uuids){
@@ -105,7 +106,7 @@ export function run(input) {
           uuids[groupUuid] = value;
         }
         else{
-          value = 0
+          value = linePrice;
           if(isActiveCustomer){
             value += linePrice * ( 1 - memberDiscountPercent);
           }
@@ -121,6 +122,7 @@ export function run(input) {
       var discountMessage = "";
       if(existParent && !sipMonthShow && groupUuid && !groupParent){
         if(memberSpecial){
+          return;
           discountMessage = "Included in membership box";
         }
         else{
@@ -140,6 +142,7 @@ export function run(input) {
           else if(title?.includes("12 ")){
             discountAmount = sub12Pack;
           }
+          discountMessage = packMessage;
         }
         else if(isActiveCustomer){
           discountAmount = linePrice * memberDiscountPercent;
@@ -195,9 +198,13 @@ export function run(input) {
     var discountAmount = 0;
     var discountMessage = "";
 
-    if(groupBuildBundle && groupParent && groupUuid && uuids[groupUuid] && uuids[groupUuid] < linePrice){
-      discountAmount = linePrice - uuids[groupUuid];
+    if(groupBuildBundle && groupParent && groupUuid){
+      console.log(uuids[groupUuid],linePrice)
+      if( uuids[groupUuid] && uuids[groupUuid] < linePrice){
+        discountAmount = linePrice - uuids[groupUuid];
+      }
     }
+
 
     const target =[/** @type {Target} */ {
       productVariant: {
