@@ -53,20 +53,6 @@ export function run(input) {
     const groupBuildBundle = line._group_build_bundle && line._group_build_bundle.value;
     if(groupParent && groupUuid){
       parentsUuid.push({uuid: groupUuid, byob: groupBuildBundle, parentVariantId: line.id});
-
-      // if(!variant.product.title.toLocaleLowerCase().includes("membership box")){
-      //   operations.push({
-      //     "merge": {
-      //       "cartLines": [ ],
-      //       "parentVariantId": line.id,
-      //       "price": {
-      //         "percentageDecrease": {
-      //           "value": 0
-      //         }
-      //       },
-      //     }
-      //   })
-      // }
     }
   });
 
@@ -80,8 +66,9 @@ export function run(input) {
       const title = variant.title;
       const memberSpecial = line._member_special && line._member_special.value;
       const existParent = !groupParent && groupUuid && parentsUuid.find((p) => p.uuid == groupUuid);
+      const sipMonthShow = line._sip_month_show && line._sip_month_show.value;
 
-      if(existParent && !sipMonthHide && memberSpecial){
+      if(existParent && !sipMonthShow && !sipMonthHide && memberSpecial){
         operations.push({
             "update": {
               "cartLineId": line.id,
@@ -95,7 +82,7 @@ export function run(input) {
             }
         })
       }
-      else if(sipMonthHide){
+      else if(existParent && sipMonthHide){
         operations.push({
           "update": {
             "cartLineId": line.id,
