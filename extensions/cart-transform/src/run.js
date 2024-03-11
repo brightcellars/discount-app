@@ -67,8 +67,9 @@ export function run(input) {
       const memberSpecial = line._member_special && line._member_special.value;
       const existParent = !groupParent && groupUuid && parentsUuid.find((p) => p.uuid == groupUuid);
       const sipMonthShow = line._sip_month_show && line._sip_month_show.value;
+      const groupBuildBundle = line._group_build_bundle && line._group_build_bundle.value;
 
-      if(existParent && !sipMonthShow && !sipMonthHide && memberSpecial){
+      if(existParent && !existParent.byob && !sipMonthShow && !sipMonthHide){
         operations.push({
             "update": {
               "cartLineId": line.id,

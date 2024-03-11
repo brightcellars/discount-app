@@ -121,8 +121,10 @@ export function run(input) {
       var discountAmount = 0;
       var discountMessage = "";
       if(existParent && !sipMonthShow && groupUuid && !groupParent){
+        return;
+
         if(memberSpecial){
-          return;
+          
           discountMessage = "Included in membership box";
         }
         else{
