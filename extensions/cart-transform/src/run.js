@@ -45,6 +45,12 @@ export function run(input) {
   const parentsUuid = [];
   const operations = [];
 
+  const buyerIdentity = input.cart.buyerIdentity;
+  const customer = buyerIdentity && buyerIdentity.customer;
+  const isActiveCustomer = customer && customer.activeSubscriber;
+
+  const memberDiscountPercent = 0.20;
+
   input.cart.lines
   .forEach(line => {
     const groupParent = line._group_parent && line._group_parent.value;
@@ -52,12 +58,12 @@ export function run(input) {
     const variant = /** @type {ProductVariant} */ (line.merchandise);
     const groupBuildBundle = line._group_build_bundle && line._group_build_bundle.value;
     if(groupParent && groupUuid){
-      parentsUuid.push({uuid: groupUuid, byob: groupBuildBundle, parentVariantId: line.id});
+      parentsUuid.push({uuid: groupUuid, byob: groupBuildBundle, value: 0});
     }
   });
 
   input.cart.lines
-    .forEach(line => {
+  .forEach(line => {
       const variant = /** @type {ProductVariant} */ (line.merchandise);
       const groupParent = line._group_parent && line._group_parent.value;
       const groupUuid = line._group_uuid && line._group_uuid.value;
@@ -68,8 +74,9 @@ export function run(input) {
       const existParent = !groupParent && groupUuid && parentsUuid.find((p) => p.uuid == groupUuid);
       const sipMonthShow = line._sip_month_show && line._sip_month_show.value;
       const groupBuildBundle = line._group_build_bundle && line._group_build_bundle.value;
+      const linePrice = line.cost.totalAmount.amount;
 
-      if(existParent && !existParent.byob && !sipMonthShow && !sipMonthHide){
+      if(existParent && !sipMonthShow && !sipMonthHide){
         operations.push({
             "update": {
               "cartLineId": line.id,
@@ -101,8 +108,50 @@ export function run(input) {
           }
         })
       }
-      // else if(existParent && !sipMonthHide)
-    });
+
+      if(existParent && existParent.byob){
+        var value = parseFloat(linePrice);
+        if(isActiveCustomer){
+          value = parseFloat(linePrice) * ( 1 - memberDiscountPercent);
+        }
+
+        const parentIndex = parentsUuid.findIndex((p) => p.uuid == groupUuid);
+        const updatedValue = existParent.value + value;
+        parentsUuid.splice(parentIndex, 1, {...existParent, value: updatedValue})
+      }
+  });
+
+  input.cart.lines
+  .forEach(line => {
+      const variant = /** @type {ProductVariant} */ (line.merchandise);
+      const groupParent = line._group_parent && line._group_parent.value;
+      const groupUuid = line._group_uuid && line._group_uuid.value;
+      const sellingPlan = line.sellingPlanAllocation && line.sellingPlanAllocation.sellingPlan.id;
+      const sipMonthHide = line._sip_month_hide && line._sip_month_hide.value;
+      const title = variant.title;
+      const memberSpecial = line._member_special && line._member_special.value;
+      const existParent = !groupParent && groupUuid && parentsUuid.find((p) => p.uuid == groupUuid);
+      const sipMonthShow = line._sip_month_show && line._sip_month_show.value;
+      const groupBuildBundle = line._group_build_bundle && line._group_build_bundle.value;
+
+      if(groupBuildBundle){
+        const parentValue = parentsUuid.find((p) => p.uuid == groupUuid).value;
+        operations.push({
+            "update": {
+              "cartLineId": line.id,
+              "price": {
+                "adjustment": {
+                  "fixedPricePerUnit": {
+                    "amount": String(parentValue)
+                  }
+                }
+              }
+            }
+        })
+        return;
+      }
+      return;
+  });
 
   if(operations.length){
     return { operations: operations};

@@ -201,9 +201,8 @@ export function run(input) {
     var discountMessage = "";
 
     if(groupBuildBundle && groupParent && groupUuid){
-      console.log(uuids[groupUuid],linePrice)
       if( uuids[groupUuid] && uuids[groupUuid] < linePrice){
-        discountAmount = linePrice - uuids[groupUuid];
+        //discountAmount = linePrice - uuids[groupUuid];
       }
     }
 
