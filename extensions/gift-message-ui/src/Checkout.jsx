@@ -27,13 +27,7 @@ function Extension() {
   const [isGift, setIsGift] = useState(false);
 
   const metafieldNamespace = "gift-message-app";
-  const emailMetafieldKey = "recipient-email";
   const messageMetafieldKey = "message";
-
-  const emailValue = useMetafield({
-    namespace: metafieldNamespace,
-    key: emailMetafieldKey,
-  });
 
   const messageValue = useMetafield({
     namespace: metafieldNamespace,
@@ -54,23 +48,16 @@ function Extension() {
 
   return (
     <BlockStack>
-      <Checkbox onChange={(e) => setIsGift(e)}>
+      <Checkbox onChange={(e) => setIsGift(e)} value={isGift}>
         <InlineLayout columns={['auto', 'auto']}>
           <Text>This order is a gift &nbsp;</Text>
           <Icon source="gift" />
         </InlineLayout>
-        <Text>{isGift ? "Add the recipient's email and a message" : null}</Text>
+        <Text>{isGift ? "Add a message" : null}</Text>
       </Checkbox>
       {
         isGift ?
           <BlockStack>
-            <TextField 
-              label="Recipient Email" 
-              type="email" 
-              required
-              onChange={(v) => onApplyMetafieldChange(v, emailMetafieldKey)}
-              value={emailValue?.value}
-            />
             <TextField 
               label="Message" 
               required 

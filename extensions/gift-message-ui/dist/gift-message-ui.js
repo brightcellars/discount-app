@@ -19613,12 +19613,7 @@ ${errorInfo.componentStack}`);
     const { extension: extension2 } = useApi();
     const [isGift, setIsGift] = (0, import_react18.useState)(false);
     const metafieldNamespace = "gift-message-app";
-    const emailMetafieldKey = "recipient-email";
     const messageMetafieldKey = "message";
-    const emailValue = useMetafield({
-      namespace: metafieldNamespace,
-      key: emailMetafieldKey
-    });
     const messageValue = useMetafield({
       namespace: metafieldNamespace,
       key: messageMetafieldKey
@@ -19634,35 +19629,23 @@ ${errorInfo.componentStack}`);
       });
     };
     return /* @__PURE__ */ (0, import_jsx_runtime4.jsxs)(BlockStack2, { children: [
-      /* @__PURE__ */ (0, import_jsx_runtime4.jsxs)(Checkbox2, { onChange: (e) => setIsGift(e), children: [
+      /* @__PURE__ */ (0, import_jsx_runtime4.jsxs)(Checkbox2, { onChange: (e) => setIsGift(e), value: isGift, children: [
         /* @__PURE__ */ (0, import_jsx_runtime4.jsxs)(InlineLayout2, { columns: ["auto", "auto"], children: [
           /* @__PURE__ */ (0, import_jsx_runtime4.jsx)(Text2, { children: "This order is a gift \xA0" }),
           /* @__PURE__ */ (0, import_jsx_runtime4.jsx)(Icon2, { source: "gift" })
         ] }),
-        /* @__PURE__ */ (0, import_jsx_runtime4.jsx)(Text2, { children: isGift ? "Add the recipient's email and a message" : null })
+        /* @__PURE__ */ (0, import_jsx_runtime4.jsx)(Text2, { children: isGift ? "Add a message" : null })
       ] }),
-      isGift ? /* @__PURE__ */ (0, import_jsx_runtime4.jsxs)(BlockStack2, { children: [
-        /* @__PURE__ */ (0, import_jsx_runtime4.jsx)(
-          TextField2,
-          {
-            label: "Recipient Email",
-            type: "email",
-            required: true,
-            onChange: (v) => onApplyMetafieldChange(v, emailMetafieldKey),
-            value: emailValue == null ? void 0 : emailValue.value
-          }
-        ),
-        /* @__PURE__ */ (0, import_jsx_runtime4.jsx)(
-          TextField2,
-          {
-            label: "Message",
-            required: true,
-            multiline: 3,
-            onChange: (v) => onApplyMetafieldChange(v, messageMetafieldKey),
-            value: messageValue == null ? void 0 : messageValue.value
-          }
-        )
-      ] }) : null
+      isGift ? /* @__PURE__ */ (0, import_jsx_runtime4.jsx)(BlockStack2, { children: /* @__PURE__ */ (0, import_jsx_runtime4.jsx)(
+        TextField2,
+        {
+          label: "Message",
+          required: true,
+          multiline: 3,
+          onChange: (v) => onApplyMetafieldChange(v, messageMetafieldKey),
+          value: messageValue == null ? void 0 : messageValue.value
+        }
+      ) }) : null
     ] });
   }
 })();
