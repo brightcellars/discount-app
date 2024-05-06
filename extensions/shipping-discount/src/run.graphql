@@ -1,0 +1,57 @@
+query RunInput {
+  cart {
+    deliveryGroups {
+      id
+    }
+    lines {
+      id
+      _group_uuid: attribute(key: "_group_uuid"){
+        value
+      }
+      _group_parent: attribute(key: "_group_parent"){
+        value
+      }
+      _group_build_bundle: attribute(key: "_group_build_bundle"){
+        value
+      }
+      _group_repurchase: attribute(key: "_group_repurchase"){
+        value
+      }
+      _sip_month_hide: attribute(key: "_sip_month_hide"){
+        value
+      }
+      _sip_month_show: attribute(key: "_sip_month_show"){
+        value
+      }
+      quantity
+      merchandise {
+        __typename
+        ... on ProductVariant {
+          id
+          title
+          product {
+            hasAnyTag (tags: ["Don't Show Member Price"])
+          }
+        }
+      }
+      cost{
+        totalAmount{
+          amount
+        }
+      }
+    }
+    cost {
+      subtotalAmount{
+        amount
+      }
+    }
+  }
+  discountNode {
+    metafield(
+      namespace: "$app:volume-discount"
+      key: "function-configuration"
+    ) {
+      value
+    }
+  }
+}
