@@ -156,6 +156,10 @@ export function run(input) {
         discountAmount = linePrice;
       }
 
+      if(isActiveCustomer && !groupUuid && !groupParent){
+        discountAmount = linePrice * memberDiscountPercent;
+      }
+
       const target =[/** @type {Target} */ {
         productVariant: {
           id: variant.id
