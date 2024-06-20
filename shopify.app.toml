@@ -1,6 +1,6 @@
 # Learn more about configuring your app at https://shopify.dev/docs/apps/tools/cli/configuration
 
-name = "discount-app"
+name = "Bright Cellars Custom App"
 client_id = "f68a3b9a18faa115c89fe65cf681036c"
 application_url = "https://restaurants-tried-restricted-consult.trycloudflare.com"
 embedded = true
