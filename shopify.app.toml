@@ -2,7 +2,7 @@
 
 name = "Bright Cellars Custom App"
 client_id = "f68a3b9a18faa115c89fe65cf681036c"
-application_url = "https://restaurants-tried-restricted-consult.trycloudflare.com"
+application_url = "https://shaft-dinner-ipaq-sensitivity.trycloudflare.com"
 embedded = true
 
 [access_scopes]
@@ -11,10 +11,10 @@ scopes = "write_products,write_discounts"
 
 [auth]
 redirect_urls = [
-  "https://restaurants-tried-restricted-consult.trycloudflare.com/auth/callback",
-  "https://restaurants-tried-restricted-consult.trycloudflare.com/auth/shopify/callback",
-  "https://restaurants-tried-restricted-consult.trycloudflare.com/api/auth/callback",
-  "https://restaurants-tried-restricted-consult.trycloudflare.com/.shopify/graphiql/auth/callback"
+  "https://shaft-dinner-ipaq-sensitivity.trycloudflare.com/auth/callback",
+  "https://shaft-dinner-ipaq-sensitivity.trycloudflare.com/auth/shopify/callback",
+  "https://shaft-dinner-ipaq-sensitivity.trycloudflare.com/api/auth/callback",
+  "https://shaft-dinner-ipaq-sensitivity.trycloudflare.com/.shopify/graphiql/auth/callback"
 ]
 
 [webhooks]
